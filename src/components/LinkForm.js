@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import { db } from "../firebase";
 
 const LinkForm = (props) => {
 
@@ -17,27 +18,27 @@ const LinkForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(values);
         props.addOrEditLink(values);
-        //setValues{}
+        setValues({...initialStateValues})
     };
+
+    const getLinkById = async id => {
+        const doc = await db.collection('links').doc(id).get();
+        setValues({...doc.data()});
+    }
+
+    useEffect(() => {
+        if (props.currentId === ''){
+            setValues({...initialStateValues});
+        } else {
+            getLinkById(props.currentId)
+        }
+    }, [props.currentId]);
 
     return(
         <form className='card card-body' onSubmit={handleSubmit}>
-            <div className="form-group input-group">
-                <div className="input-group-text bg-ligth">
-                    <i className="material-icons">inser_link</i>
-                </div>
-                <input 
-                    type="text"
-                    className="form-control"
-                    placeholder="placeholder"
-                    name="url"
-                    onChange={handleInputChange}
-                />
-            </div>
-
-            <div className="form-group input-group">
+           
+           <div className="form-group input-group">
                 <div className="input-group-text bg-ligth">
                     <i className="material-icons">create</i>
                 </div>
@@ -47,11 +48,26 @@ const LinkForm = (props) => {
                     placeholder="website name"
                     name="name"
                     onChange={handleInputChange}
+                    value={values.name}
+                />
+            </div>
+
+            <div className="form-group input-group">
+                <div className="input-group-text bg-ligth">
+                    <i className="material-icons">insert_link</i>
+                </div>
+                <input 
+                    type="text"
+                    className="form-control"
+                    placeholder="Url name"
+                    name="url"
+                    onChange={handleInputChange}
+                    value={values.url}
                 />
             </div>
 
             <button className="btn btn-primary btn-block">
-                save
+                {props.currentId === '' ? 'Save': 'Update'}
             </button>
         </form>
     )
