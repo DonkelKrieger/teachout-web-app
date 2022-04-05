@@ -1,4 +1,7 @@
 import React from "react";
+import Estudents from "./components/estudent";
+import Teachers from "./components/teacher";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function Homepage() {
     return (
@@ -20,23 +23,13 @@ function Homepage() {
                                     </a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Features</a>
+                                    <a className="nav-link" href="/crud">Crud</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Pricing</a>
+                                    <a className="nav-link" href="/home/estudent">Estudiantes</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">About</a>
-                                </li>
-                                <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                                    <div className="dropdown-menu">
-                                        <a className="dropdown-item" href="#">Action</a>
-                                        <a className="dropdown-item" href="#">Another action</a>
-                                        <a className="dropdown-item" href="#">Something else here</a>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">Separated link</a>
-                                    </div>
+                                    <a className="nav-link" href="/home/estudent">Profesores</a>
                                 </li>
                             </ul>
                             <button className="btn btn-secondary my-2 my-sm-0" type="submit">Login</button>
@@ -45,7 +38,19 @@ function Homepage() {
                     </div>
                 </nav>
             </div>
+
+            <Routes>
+                <Route path='/home/estudent' element={
+                    <div> <Estudents /> </div>
+                } />
+                <Route path='/home/teacher' element={
+                    <div> <Teachers /> </div>
+                } />
+            </Routes>
+
+
         </div>
+
     );
 }
 export default Homepage;
